@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../styles/FilmList.css'
+import MovieCard from './MovieCard';
 
 const FilmList = () => {
 
@@ -42,14 +42,16 @@ const FilmList = () => {
                 {data && data.map((item) => {
 
                     return (
-                        <ul className='card'>
-                            <li key={item.episode_id}>
-                                <p id='title'>{item.title}</p>
-                                <p id='date'>{item.release_date}</p>
-                                <p id='opening'>{item.opening_crawl}</p>
-                                <p><a href='#'>More Info</a></p>
-                            </li>
-                        </ul>)
+                        <div className='movie_card'>
+
+                            <MovieCard
+                                key={item.episode_id}
+                                title={item.title}
+                                releaseDate={item.release_date}
+                                openingCrawl={item.opening_crawl}
+                            />
+
+                        </div>)
                 })}
 
             </div>
@@ -57,5 +59,6 @@ const FilmList = () => {
         </div>
     )
 }
+
 
 export default FilmList
