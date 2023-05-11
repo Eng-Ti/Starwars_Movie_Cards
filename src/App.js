@@ -1,22 +1,25 @@
 
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
-import MovieCard from './components/MovieCard';
-import Back from './components/Back';
+import MovieDetails from '../src/components/MovieDetails'
+import { Link } from 'react-router-dom';
 
 
-const StarWarsApp = () => {
+const App = () => {
   return (
     <>
+      {/* <MovieDetails /> */}
 
+      <nav>
+        <Link to='/'> Home </Link>
+      </nav>
 
       <Routes>
 
-        <Route path='/' element={<Home />} />
+        <Route exact path='/' element={<Home />} />
 
-        <Route exact path="/" element={<MovieCard />} />
-        <Route exact path="/movie/:id" element={<Back />} />
+        <Route exact path="/MovieDetails" element={<MovieDetails />} />
 
       </Routes>
     </>
@@ -24,4 +27,4 @@ const StarWarsApp = () => {
   );
 };
 
-export default StarWarsApp;
+export default App;

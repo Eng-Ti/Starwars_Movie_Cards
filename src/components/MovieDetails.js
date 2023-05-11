@@ -1,88 +1,65 @@
+import React, { useEffect, useState } from 'react';
+import MovieCard from './MovieCard';
+import Home from './Home';
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+const FilmList = () => {
 
-const MovieDetails = () => {
-    const [movie, setMovie] = useState(null);
+
     const [loading, setLoading] = useState(true);
-    const { id } = useParams();
 
+    const [data, setData] = useState(null);
 
-    useEffect(() => {
-        axios.get(`https://swapi.dev/api/films/${id}`)
-            .then(response => {
-                setMovie(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-            .finally(() => setLoading(false));
-    }, [id]);
-
-
-    const goBack = () => {
-        window.history.back();
-    };
-
-    const [characters, setCharacters] = useState([]);
-    const [planets, setPlanets] = useState([]);
-    const [starships, setStarships] = useState([]);
-    const [vehicles, setVehicles] = useState([]);
-
+    const [error, setError] = useState();
 
     useEffect(() => {
-        const getDetails = (StyledMovieInfoListst, setter) => {
-            Promise.all(
-                StyledMovieInfoListst.map((url) => axios.get(url).then((response) => response.data.name))
-            ).then(setter);
-        };
+        fetch(`https://swapi.dev/api/films`)
+            .then((response) => {
+                if (!response.ok) {
+                    alert(`This is an HTTP Error: The status is ${response.status}`)
+                    throw new Error(`This is an HTTP Error: The status is ${response.status}`)
+                }
+                return response.json()
+            })
 
-        if (movie) {
-            getDetails(movie.characters, setCharacters);
-            getDetails(movie.planets, setPlanets);
-            getDetails(movie.starships, setStarships);
-            getDetails(movie.vehicles, setVehicles);
-            // getDetails(movie.species, setSpecies);
-        }
-    }, [movie]);
+            .then((actualData) => {
+                setData(actualData.results)
+                setError(null)
+            })
+            .catch((error) => {
+                console.log(error)
+                setError(error)
+                setData(null)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }, []);
 
     return (
-        <>
-            {!movie && loading && <div>Loading</div>}
-            {movie && (
-                <div>
-                    <div className='backtolist'>
-                        <div onClick={goBack}>← Back to list</div>
-                        <div>{movie.title}</div>
-                        <div>Director: {movie.director}</div>
-                        <div>Producer: {movie.producer}</div>
-                    </div>
+        <div>
+            <div>
+                {loading && <div> Data loading...</div>}
+                {error && <div>{`Problem fetching data - ${error}`}</div>}
 
-                    <div className='description'>
-                        <div>Description</div>
-                        <div>{movie.opening_crawl}</div>
-                    </div>
+                {data && data.map((item) => {
 
-                    <MovieDet heading="Characters" items={characters} />
-                    <MovieDet heading="Planets" items={planets} />
-                    <MovieDet heading="Starships" items={starships} />
-                    <MovieDet heading="Vehicles" items={vehicles} />
+                    return (
+                        <div className='movie_card'>
 
-                </div>
-            )}
-        </>
-    );
-};
-const MovieDet = ({ heading, items }) => {
-    <div>
-        <h2>{heading}</h2>
-        <div className='info'>
-            {items.map((name, index) => (
-                <p key={index}>{name}</p>
-            ))}
+                            <MovieCard
+                                openingCrawl={item.opening_crawl}
+                            />
+
+
+
+                        </div>)
+                })}
+
+            </div>
+
         </div>
-    </div>
-};
+    )
+}
 
-export default MovieDetails
+
+export default FilmList;
