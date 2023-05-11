@@ -1,18 +1,27 @@
-import './App.css';
-import FilmList from './components/FilmList';
-import Logo from './components/Logo'
 
-function App() {
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
+import MovieCard from './components/MovieCard';
+import Back from './components/Back';
 
+
+const StarWarsApp = () => {
   return (
+    <>
 
-    <div className='App'>
 
-      <Logo />
-      <FilmList />
+      <Routes>
 
-    </div>
+        <Route path='/' element={<Home />} />
+
+        <Route exact path="/" element={<MovieCard />} />
+        <Route exact path="/movie/:id" element={<Back />} />
+
+      </Routes>
+    </>
+
   );
-}
+};
 
-export default App;
+export default StarWarsApp;

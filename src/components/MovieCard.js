@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/MovieCard.css'
+import Back from '../components/Back';
 
 const MovieCard = ({ title, releaseDate, openingCrawl }) => {
     return (
@@ -9,7 +10,7 @@ const MovieCard = ({ title, releaseDate, openingCrawl }) => {
             <p id='date'>{releaseDate}</p>
             <p id='opening'>{openingCrawl}</p>
             <hr></hr>
-            <p><a href='#'>More Info</a></p>
+            <div><a href='<Back/>'>More Info</a></div>
 
 
         </div>
