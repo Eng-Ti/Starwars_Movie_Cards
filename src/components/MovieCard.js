@@ -1,6 +1,7 @@
 import React from 'react'
 import '../styles/MovieCard.css'
-import Back from '../components/Back';
+import MovieDetails from '../components/MovieDetails';
+import { Link } from 'react-router-dom'
 
 const MovieCard = ({ title, releaseDate, openingCrawl }) => {
     return (
@@ -10,7 +11,13 @@ const MovieCard = ({ title, releaseDate, openingCrawl }) => {
             <p id='date'>{releaseDate}</p>
             <p id='opening'>{openingCrawl}</p>
             <hr></hr>
-            <div><a href='<Back/>'>More Info</a></div>
+
+            <div>
+                <ul>
+                    <li><Link to="/MovieDetails">More Info</Link></li>
+                </ul>
+
+            </div>
 
 
         </div>
